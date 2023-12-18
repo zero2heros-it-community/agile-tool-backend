@@ -1,0 +1,47 @@
+version: '3.1'
+
+services:
+  application-service:
+    image: 'application-service:latest'
+    build:
+      context: ./application-service
+    ports:
+      - "8080:8080"
+    container_name: application-service
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/application_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=1234
+      - SPRING_DATASOURCE_DB=application_db
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  postgres:
+    image: 'postgres:13.1-alpine'
+    ports:
+      - "5432:5432"
+    container_name: postgres
+    environment:
+      - POSTGRES_DATABASE_URL=jdbc:postgresql://postgres:5432/application_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=application_db
+      
+      
+  document-service:
+    image: 'document-service:latest'
+    container_name: document-service
+    build:
+      context: ./document-service
+    depends_on:
+      - mongodb
+    ports:
+      - "8081:8081"
+
+  mongodb:
+    container_name: mongodb
+    image: mongo:4.4.14-rc0-focal
+    restart: always
+    ports:
+      - "27017:27017"
