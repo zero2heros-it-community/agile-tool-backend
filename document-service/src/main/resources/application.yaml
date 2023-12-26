@@ -5,7 +5,7 @@ spring:
   application.name: document-service
   data:
     mongodb:
-      uri: mongodb://localhost:27017/messages
+      uri: mongodb://mongodb:27017/messages
   kafka:
     bootstrap-servers: ${KAFKA_SERVER_URL}
     properties:
