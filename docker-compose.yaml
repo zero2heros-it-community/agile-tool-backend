@@ -27,8 +27,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1234
       - POSTGRES_DB=application_db
-      
-      
+
+
   document-service:
     image: 'document-service:latest'
     container_name: document-service

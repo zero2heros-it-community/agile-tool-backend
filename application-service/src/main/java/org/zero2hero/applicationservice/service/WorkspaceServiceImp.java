@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.zero2hero.applicationservice.dto.WorkspaceCreateDto;
 import org.zero2hero.applicationservice.dto.WorkspaceViewDto;
 import org.zero2hero.applicationservice.entity.Workspace;
+import org.zero2hero.applicationservice.exception.NotFoundException;
 import org.zero2hero.applicationservice.repository.WorkspaceRepository;
 
 @Service
@@ -29,5 +30,11 @@ public class WorkspaceServiceImp implements WorkspaceService {
         System.out.println("Worspace" + workspace);
         this.kafkaTemplate.send("first_topic", "user-key", workspace);
         return WorkspaceViewDto.of(workspace);
+    }
+
+    @Override
+    public Workspace getById(Long id) {
+        return workspaceRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Workspace not found with this: " + id));
     }
 }

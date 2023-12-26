@@ -38,4 +38,3 @@ springdoc:
   swagger-ui:
     url: /openapi
 
-
