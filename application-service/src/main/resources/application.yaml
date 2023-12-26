@@ -1,14 +1,14 @@
 server:
-  port: 8080
+  port: 8087
 
 spring:
   kafka:
-    bootstrap-servers: ${KAFKA_SERVER_URL}
+    bootstrap-servers: tops-sunbeam-12228-eu2-kafka.upstash.io:9092
     properties:
       sasl:
         mechanism: SCRAM-SHA-256
         jaas:
-          config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${KAFKA_USERNAME}" password="${KAFKA_PASSWORD}";
+          config: org.apache.kafka.common.security.scram.ScramLoginModule required username="dG9wcy1zdW5iZWFtLTEyMjI4JCce09PJwN3aSC6nRjwQ4GZ3qdUxTRntjsThLNE" password="NWNjYjJjYWUtMmMzOC00MTJiLTk3OTctZjI2MmJjZWIwMDU5";
       security:
         protocol: SASL_SSL
     producer:
@@ -20,7 +20,7 @@ spring:
     name: application-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://postgres:5432/application_db
+    url: jdbc:postgresql://localhost:5432/application_db
     username: postgres
     password: 1234
   main:
