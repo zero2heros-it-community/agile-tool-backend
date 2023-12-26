@@ -6,7 +6,7 @@ services:
     build:
       context: ./application-service
     ports:
-      - "8098:8080"
+      - "8080:8080"
     container_name: application-service
     depends_on:
       - postgres
@@ -28,17 +28,7 @@ services:
       - POSTGRES_PASSWORD=1234
       - POSTGRES_DB=application_db
 
-  Pgadmin:
-    container_name: pgadmin4_container
-    image: dpage/pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: haticeseverr@hotmail.com
-      PGADMIN_DEFAULT_PASSWORD: 1234
-    ports:
-      - "5050:80"
-      
-      
+
   document-service:
     image: 'document-service:latest'
     container_name: document-service
@@ -47,7 +37,7 @@ services:
     depends_on:
       - mongodb
     ports:
-      - "8097:8081"
+      - "8081:8081"
 
   mongodb:
     container_name: mongodb
