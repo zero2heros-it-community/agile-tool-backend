@@ -42,10 +42,12 @@ public class WorkspaceServiceImp implements WorkspaceService {
         return WorkspaceViewDto.of(workspace);
     }
 
-    @Override
     public Workspace getById(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Workspace ID is in incorrect format");
+        }
         return workspaceRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Workspace not found with this: " + id));
+                .orElseThrow(() -> new NotFoundException("Workspace not found with ID: " + id));
     }
 
     private boolean isNameRightFormat(String name) {
