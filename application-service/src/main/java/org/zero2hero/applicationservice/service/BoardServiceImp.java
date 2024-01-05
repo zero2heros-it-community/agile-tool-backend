@@ -29,17 +29,17 @@ public class BoardServiceImp implements BoardService {
     @Override
     public BoardViewDto create(BoardCreateDto boardCreateDto) {
         Board board = new Board();
-//        Workspace workspace = workspaceService.findWorkspaceById(Long.valueOf(boardCreateDto.getWorkSpaceId()));
+        Workspace workspace = workspaceService.findWorkspaceById(Long.valueOf(boardCreateDto.getWorkSpaceId()));
 
-//        if (workspace==null)
-//            throw new NotFoundException("workspace not found");
+        if (workspace==null)
+            throw new NotFoundException("workspace not found");
         if (isBoardExist(boardCreateDto.getName(), Long.valueOf(boardCreateDto.getWorkSpaceId())))
             throw new AlreadyExistException("board is already exist");
-//        if (!isAValidBoardName(boardCreateDto.getName()))
+        if (!isAValidBoardName(boardCreateDto.getName()))
 //            throw new IncorrectFormatException("workspace Id or board name is in incorrect format");
 
         board.setName(boardCreateDto.getName());
-//        board.setWorkspace(workspace);
+        board.setWorkspace(workspace);
 
         board = boardRepository.save(board);
         this.kafkaTemplate.send("first_topic", "user-key", board);

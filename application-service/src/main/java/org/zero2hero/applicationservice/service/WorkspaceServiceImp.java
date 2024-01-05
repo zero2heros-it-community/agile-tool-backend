@@ -7,6 +7,7 @@ import org.zero2hero.applicationservice.dto.WorkspaceCreateDto;
 import org.zero2hero.applicationservice.dto.WorkspaceViewDto;
 import org.zero2hero.applicationservice.entity.Workspace;
 import org.zero2hero.applicationservice.exception.AlreadyExistException;
+import org.zero2hero.applicationservice.exception.IdFormatException;
 import org.zero2hero.applicationservice.exception.NameFormatException;
 import org.zero2hero.applicationservice.exception.NotFoundException;
 import org.zero2hero.applicationservice.repository.WorkspaceRepository;
@@ -17,11 +18,13 @@ import java.util.regex.Pattern;
 public class WorkspaceServiceImp implements WorkspaceService {
     private final KafkaTemplate kafkaTemplate;
 
-    public WorkspaceServiceImp(KafkaTemplate kafkaTemplate) {
+    @Autowired
+    public WorkspaceServiceImp(KafkaTemplate kafkaTemplate, WorkspaceRepository workspaceRepository) {
         this.kafkaTemplate = kafkaTemplate;
+        this.workspaceRepository = workspaceRepository;
     }
 
-    @Autowired
+//    @Autowired
     private WorkspaceRepository workspaceRepository;
 
     @Override
@@ -42,12 +45,13 @@ public class WorkspaceServiceImp implements WorkspaceService {
         return WorkspaceViewDto.of(workspace);
     }
 
-    public Workspace getById(Long id) {
+    public Workspace findWorkspaceById(Long id) {
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("Workspace ID is in incorrect format");
+            throw new IdFormatException("Workspace ID is in incorrect format");
         }
-        return workspaceRepository.findById(id)
+        Workspace workspace = workspaceRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Workspace not found with ID: " + id));
+        return workspace;
     }
 
     private boolean isNameRightFormat(String name) {
