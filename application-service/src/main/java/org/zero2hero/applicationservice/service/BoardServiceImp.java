@@ -56,7 +56,7 @@ public class BoardServiceImp implements BoardService {
             throw new BadRequestException("Board ID or name is in incorrect format");
 
         if (isBoardExist(boardUpdateDto.getName(),Long.valueOf(boardUpdateDto.getWorkSpaceId()))) {
-            throw new ForbiddenException("Board is already exist");
+            throw new AlreadyExistException("Board is already exist");
         }
 
         Board board = boardRepository.findById(Long.valueOf(id))
