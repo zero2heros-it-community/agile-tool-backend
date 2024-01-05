@@ -14,4 +14,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BoardUpdateDto {
     private String name;
+    private String workSpaceId;
 }

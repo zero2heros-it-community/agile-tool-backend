@@ -51,29 +51,19 @@ public class BoardServiceImp implements BoardService {
 
     @Override
     public BoardViewDto update(String id, BoardUpdateDto boardUpdateDto) throws BadRequestException {
-        validateUpdateBoardRequest(id, boardUpdateDto);
+
+        if (!isAValidBoardName(boardUpdateDto.getName()))
+            throw new BadRequestException("Board ID or name is in incorrect format");
+
+        if (isBoardExist(boardUpdateDto.getName(),Long.valueOf(boardUpdateDto.getWorkSpaceId()))) {
+            throw new ForbiddenException("Board is already exist");
+        }
 
         Board board = boardRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new NotFoundException("Board not found"));
 
-        if (boardRepository.existsByWorkSpaceIdAndName(board.getWorkspace().getId(), boardUpdateDto.getName())) {
-            throw new ForbiddenException("Board is already exist");
-        }
-
         board.setName(boardUpdateDto.getName());
         return BoardViewDto.of(boardRepository.save(board));
-    }
-
-    private void validateUpdateBoardRequest(String id, BoardUpdateDto request) throws BadRequestException {
-        if (!isValidFormat(id, request.getName())) {
-            throw new BadRequestException("Board ID or name is in incorrect format");
-        }
-    }
-
-    private boolean isValidFormat(String id, String name) {
-        // Implement your format validation logic
-        // This is just a placeholder method
-        return id != null && name != null && isAValidBoardName(name);
     }
 
     private boolean isBoardExist(String boardName, Long workspaceId) {
