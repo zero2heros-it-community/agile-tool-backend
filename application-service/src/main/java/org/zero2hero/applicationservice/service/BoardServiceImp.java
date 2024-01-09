@@ -11,8 +11,7 @@ import org.zero2hero.applicationservice.entity.Board;
 import org.zero2hero.applicationservice.entity.Workspace;
 import org.zero2hero.applicationservice.exception.AlreadyExistException;
 //import org.zero2hero.applicationservice.exception.IncorrectFormatException;
-import org.zero2hero.applicationservice.exception.ForbiddenException;
-import org.zero2hero.applicationservice.exception.IncorrectFormatException;
+import org.zero2hero.applicationservice.exception.NameFormatException;
 import org.zero2hero.applicationservice.exception.NotFoundException;
 import org.zero2hero.applicationservice.repository.BoardRepository;
 
@@ -40,7 +39,7 @@ public class BoardServiceImp implements BoardService {
         if (isBoardExist(boardCreateDto.getName(), Long.valueOf(boardCreateDto.getWorkSpaceId())))
             throw new AlreadyExistException("board is already exist");
         if (!isAValidBoardName(boardCreateDto.getName()))
-//            throw new IncorrectFormatException("workspace Id or board name is in incorrect format");
+          throw new NameFormatException("Board name is in incorrect format");
 
         board.setName(boardCreateDto.getName());
         board.setWorkspace(workspace);
