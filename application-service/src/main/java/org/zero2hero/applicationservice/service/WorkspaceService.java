@@ -8,5 +8,5 @@ import org.zero2hero.applicationservice.entity.Workspace;
 public interface WorkspaceService {
     WorkspaceViewDto create(WorkspaceCreateDto workspaceCreateDto);
 
-    Workspace getById(Long id);
+    Workspace findWorkspaceById(Long id);
 }

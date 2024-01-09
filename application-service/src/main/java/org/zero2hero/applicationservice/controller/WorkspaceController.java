@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import org.zero2hero.applicationservice.dto.WorkspaceCreateDto;
 import org.zero2hero.applicationservice.dto.WorkspaceViewDto;
 import org.zero2hero.applicationservice.entity.Workspace;
-import org.zero2hero.applicationservice.exception.NotFoundException;
 import org.zero2hero.applicationservice.service.WorkspaceService;
 
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/v1/work-space")
@@ -27,18 +26,9 @@ public class WorkspaceController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getWorkspace(@PathVariable Long id) {
-        if (id == null || id <= 0) {
-            return new ResponseEntity<>(Map.of("message", "workspace Id is in incorrect format!",
-            "code", HttpStatus.BAD_REQUEST.value()),HttpStatus.BAD_REQUEST);
-        }
-        try {
-            Workspace workspace = workspaceService.getById(id);
-            return new ResponseEntity<>(workspace, HttpStatus.OK);
-        } catch (NotFoundException e) {
-            return new ResponseEntity<>(Map.of("message", "Workspace not found"), HttpStatus.NOT_FOUND);
-        }
-
+    public ResponseEntity<WorkspaceViewDto> getWorkspace(@PathVariable Long id) {
+            Workspace workspace = workspaceService.findWorkspaceById(id);
+            return new ResponseEntity<>(WorkspaceViewDto.of(workspace), HttpStatus.OK);
     }
 
 }
