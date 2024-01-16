@@ -75,13 +75,10 @@ class WorkspaceControllerTest {
         mockMvc.perform(post("/api/v1/work-space")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(workspaceCreateDto)))
-                .andExpect(status().isBadRequest());
-
-        mockMvc.perform(post("/api/v1/work-space")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(workspaceCreateDto)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Test1"))
-               .andExpect(jsonPath("$.code").value(400));
+                .andExpect(jsonPath("$.code").value(400));
+
+
     }
 }
