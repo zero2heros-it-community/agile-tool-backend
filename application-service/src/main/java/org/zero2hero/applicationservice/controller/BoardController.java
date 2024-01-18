@@ -1,18 +1,17 @@
 package org.zero2hero.applicationservice.controller;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.zero2hero.applicationservice.dto.BoardCreateDto;
+import org.zero2hero.applicationservice.dto.BoardUpdateDto;
 import org.zero2hero.applicationservice.dto.BoardViewDto;
 import org.zero2hero.applicationservice.service.BoardService;
 
 @RestController
-@RequestMapping("/api/v1/board")
+@RequestMapping("/api/v1/boards")
 public class BoardController {
 
     @Autowired
@@ -23,5 +22,11 @@ public class BoardController {
         BoardViewDto boardViewDto = boardService.create(
                 boardCreateDto);
         return new ResponseEntity<>(boardViewDto, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BoardViewDto> updateBoard(@PathVariable String id, @RequestBody BoardUpdateDto boardUpdateDto) throws BadRequestException {
+        BoardViewDto boardViewDto = boardService.update(id, boardUpdateDto);
+        return new ResponseEntity<>(boardViewDto, HttpStatus.OK);
     }
 }

@@ -1,14 +1,15 @@
 package org.zero2hero.applicationservice.service;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.zero2hero.applicationservice.dto.BoardCreateDto;
+import org.zero2hero.applicationservice.dto.BoardUpdateDto;
 import org.zero2hero.applicationservice.dto.BoardViewDto;
 import org.zero2hero.applicationservice.entity.Board;
 import org.zero2hero.applicationservice.entity.Workspace;
 import org.zero2hero.applicationservice.exception.AlreadyExistException;
 import org.zero2hero.applicationservice.exception.NameFormatException;
-//import org.zero2hero.applicationservice.exception.IncorrectFormatException;
 import org.zero2hero.applicationservice.exception.NotFoundException;
 import org.zero2hero.applicationservice.repository.BoardRepository;
 
@@ -36,7 +37,7 @@ public class BoardServiceImp implements BoardService {
         if (isBoardExist(boardCreateDto.getName(), Long.valueOf(boardCreateDto.getWorkSpaceId())))
             throw new AlreadyExistException("board is already exist");
         if (!isAValidBoardName(boardCreateDto.getName()))
-            throw new NameFormatException("Board name is in incorrect format");
+          throw new NameFormatException("Board name is in incorrect format");
 
         board.setName(boardCreateDto.getName());
         board.setWorkspace(workspace);
@@ -44,6 +45,23 @@ public class BoardServiceImp implements BoardService {
         board = boardRepository.save(board);
         this.kafkaTemplate.send("first_topic", "user-key", board);
         return BoardViewDto.of(board);
+    }
+
+    @Override
+    public BoardViewDto update(String id, BoardUpdateDto boardUpdateDto) throws BadRequestException {
+
+        if (!isAValidBoardName(boardUpdateDto.getName()))
+            throw new BadRequestException("Board ID or name is in incorrect format");
+
+        if (isBoardExist(boardUpdateDto.getName(),Long.valueOf(boardUpdateDto.getWorkSpaceId()))) {
+            throw new AlreadyExistException("Board is already exist");
+        }
+
+        Board board = boardRepository.findById(Long.valueOf(id))
+                .orElseThrow(() -> new NotFoundException("Board not found"));
+
+        board.setName(boardUpdateDto.getName());
+        return BoardViewDto.of(boardRepository.save(board));
     }
 
     private boolean isBoardExist(String boardName, Long workspaceId) {
