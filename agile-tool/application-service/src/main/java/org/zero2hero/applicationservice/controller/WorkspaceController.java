@@ -12,7 +12,7 @@ import org.zero2hero.applicationservice.service.WorkspaceService;
 
 
 @RestController
-@RequestMapping("/api/v1/work-space")
+@RequestMapping("/application/api/v1/work-space")
 public class WorkspaceController {
 
     @Autowired

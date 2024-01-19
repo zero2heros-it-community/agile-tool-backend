@@ -4,7 +4,7 @@ services:
   application-service:
     image: 'application-service:latest'
     build:
-      context: ./application-service
+      context: application-service
     ports:
       - "8080:8080"
     container_name: application-service
@@ -33,7 +33,7 @@ services:
     image: 'document-service:latest'
     container_name: document-service
     build:
-      context: ./document-service
+      context: document-service
     depends_on:
       - mongodb
     ports:

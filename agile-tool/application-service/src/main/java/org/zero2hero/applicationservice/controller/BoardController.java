@@ -11,7 +11,7 @@ import org.zero2hero.applicationservice.dto.BoardViewDto;
 import org.zero2hero.applicationservice.service.BoardService;
 
 @RestController
-@RequestMapping("/api/v1/boards")
+@RequestMapping("/application/api/v1/boards")
 public class BoardController {
 
     @Autowired
