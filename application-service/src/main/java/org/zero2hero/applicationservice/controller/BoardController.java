@@ -19,8 +19,8 @@ public class BoardController {
 
     @PostMapping
     public ResponseEntity<BoardViewDto> createBoard(@RequestBody BoardCreateDto boardCreateDto) {
-        BoardViewDto boardViewDto = boardService.create(
-                boardCreateDto);
+        BoardViewDto boardViewDto = BoardViewDto.of(boardService.create(
+                boardCreateDto));
         return new ResponseEntity<>(boardViewDto, HttpStatus.CREATED);
     }
 

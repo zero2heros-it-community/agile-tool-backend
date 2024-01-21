@@ -28,7 +28,7 @@ public class BoardServiceImp implements BoardService {
     }
 
     @Override
-    public BoardViewDto create(BoardCreateDto boardCreateDto) {
+    public Board create(BoardCreateDto boardCreateDto) {
         Board board = new Board();
         Workspace workspace = workspaceService.findWorkspaceById(Long.valueOf(boardCreateDto.getWorkSpaceId()));
 
@@ -44,7 +44,7 @@ public class BoardServiceImp implements BoardService {
 
         board = boardRepository.save(board);
         this.kafkaTemplate.send("first_topic", "user-key", board);
-        return BoardViewDto.of(board);
+        return board;
     }
 
     @Override
