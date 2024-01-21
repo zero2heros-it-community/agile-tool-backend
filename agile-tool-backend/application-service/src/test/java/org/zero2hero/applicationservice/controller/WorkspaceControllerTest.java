@@ -102,7 +102,7 @@ class WorkspaceControllerTest {
                 .build();
 
         // then
-        mockMvc.perform(get("/api/v1/work-space/" + workspaceId)
+        mockMvc.perform(get("/application/api/v1/work-space/" + workspaceId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(workspace.getId().toString()))
@@ -124,7 +124,7 @@ class WorkspaceControllerTest {
                 .build();
 
         //Then
-        mockMvc.perform(delete("/api/v1/work-space/" + workspaceId)
+        mockMvc.perform(delete("/application/api/v1/work-space/" + workspaceId)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.['Workspace is successfully deleted']").value(true));
