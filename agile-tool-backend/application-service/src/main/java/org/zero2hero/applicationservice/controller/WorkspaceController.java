@@ -9,6 +9,8 @@ import org.zero2hero.applicationservice.dto.WorkspaceViewDto;
 import org.zero2hero.applicationservice.entity.Workspace;
 import org.zero2hero.applicationservice.service.WorkspaceService;
 
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -29,6 +31,13 @@ public class WorkspaceController {
     public ResponseEntity<WorkspaceViewDto> getWorkspace(@PathVariable Long id) {
             Workspace workspace = workspaceService.findWorkspaceById(id);
             return new ResponseEntity<>(WorkspaceViewDto.of(workspace), HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String,Boolean>> deleteWorkspace(@PathVariable Long id){
+        workspaceService.deleteWorkspaceById(id);
+       Map<String,Boolean> map = new HashMap<>();
+       map.put("Workspace is successfully deleted",true);
+       return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
 }

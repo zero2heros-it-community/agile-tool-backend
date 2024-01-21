@@ -9,4 +9,6 @@ public interface WorkspaceService {
     WorkspaceViewDto create(WorkspaceCreateDto workspaceCreateDto);
 
     Workspace findWorkspaceById(Long id);
+
+    void deleteWorkspaceById(Long id);
 }

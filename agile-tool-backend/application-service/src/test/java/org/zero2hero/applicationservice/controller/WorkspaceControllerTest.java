@@ -18,11 +18,11 @@ import org.zero2hero.applicationservice.exception.NameFormatException;
 import org.zero2hero.applicationservice.service.WorkspaceService;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @WebMvcTest
 @ContextConfiguration(classes = WorkspaceCreateDto.class)
@@ -89,7 +89,7 @@ class WorkspaceControllerTest {
     public void canGetWorkspace() throws Exception {
         // given
         Long workspaceId = 1L;
-        Workspace workspace = new Workspace(); // Varsayılan değerlerle dolu bir workspace nesnesi
+        Workspace workspace = new Workspace();
         workspace.setId(workspaceId);
         workspace.setName("testWorkspace");
 
@@ -108,4 +108,27 @@ class WorkspaceControllerTest {
                 .andExpect(jsonPath("$.id").value(workspace.getId().toString()))
                 .andExpect(jsonPath("$.name").value(workspace.getName()));
     }
+
+    @Test
+    public void canDeleteWorkspace() throws Exception{
+        //  Given
+        Long workspaceId=1L;
+        Workspace workspace = new Workspace();
+        workspace.setId(workspaceId);
+        workspace.setName("testWorkspace");
+
+        //When
+        doNothing().when(workspaceService).deleteWorkspaceById(workspaceId);
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(workspaceController)
+                .setControllerAdvice(new CustomExceptionHandler())
+                .build();
+
+        //Then
+        mockMvc.perform(delete("/api/v1/work-space/" + workspaceId)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.['Workspace is successfully deleted']").value(true));
+    }
+
+
 }
