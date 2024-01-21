@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.zero2hero</groupId>
-    <artifactId>agile-tool</artifactId>
+    <artifactId>agile-tool-backend</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
