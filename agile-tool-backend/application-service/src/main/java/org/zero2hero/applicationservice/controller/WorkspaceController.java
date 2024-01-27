@@ -9,6 +9,8 @@ import org.zero2hero.applicationservice.dto.WorkspaceViewDto;
 import org.zero2hero.applicationservice.entity.Workspace;
 import org.zero2hero.applicationservice.service.WorkspaceService;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -27,8 +29,19 @@ public class WorkspaceController {
 
     @GetMapping("/{id}")
     public ResponseEntity<WorkspaceViewDto> getWorkspace(@PathVariable Long id) {
-            Workspace workspace = workspaceService.findWorkspaceById(id);
-            return new ResponseEntity<>(WorkspaceViewDto.of(workspace), HttpStatus.OK);
+        Workspace workspace = workspaceService.findWorkspaceById(id);
+        return new ResponseEntity<>(WorkspaceViewDto.of(workspace), HttpStatus.OK);
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> getAll() {
+        List<Workspace> workspaceList = workspaceService.getAll();
+        List<WorkspaceViewDto> viewDtos = new ArrayList<>();
+        workspaceList.forEach(workspace -> {
+            viewDtos.add(WorkspaceViewDto.of(workspace));
+        });
+
+        return new ResponseEntity<>(viewDtos, HttpStatus.OK);
     }
 
 }
