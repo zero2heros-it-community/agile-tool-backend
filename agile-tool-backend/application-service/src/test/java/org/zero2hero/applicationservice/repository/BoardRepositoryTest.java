@@ -1,0 +1,12 @@
+package org.zero2hero.applicationservice.repository;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class BoardRepositoryTest {
+
+    @Test
+    void findBoardsByWorkspaceId() {
+    }
+}

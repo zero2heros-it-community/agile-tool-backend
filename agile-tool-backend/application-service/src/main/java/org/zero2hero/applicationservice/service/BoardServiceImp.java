@@ -13,6 +13,8 @@ import org.zero2hero.applicationservice.exception.NameFormatException;
 import org.zero2hero.applicationservice.exception.NotFoundException;
 import org.zero2hero.applicationservice.repository.BoardRepository;
 
+import java.util.List;
+
 @Service
 public class BoardServiceImp implements BoardService {
     private final KafkaTemplate kafkaTemplate;
@@ -32,12 +34,12 @@ public class BoardServiceImp implements BoardService {
         Board board = new Board();
         Workspace workspace = workspaceService.findWorkspaceById(Long.valueOf(boardCreateDto.getWorkSpaceId()));
 
-        if (workspace==null)
+        if (workspace == null)
             throw new NotFoundException("workspace not found");
         if (isBoardExist(boardCreateDto.getName(), Long.valueOf(boardCreateDto.getWorkSpaceId())))
             throw new AlreadyExistException("board is already exist");
         if (!isAValidBoardName(boardCreateDto.getName()))
-          throw new NameFormatException("Board name is in incorrect format");
+            throw new NameFormatException("Board name is in incorrect format");
 
         board.setName(boardCreateDto.getName());
         board.setWorkspace(workspace);
@@ -53,7 +55,7 @@ public class BoardServiceImp implements BoardService {
         if (!isAValidBoardName(boardUpdateDto.getName()))
             throw new BadRequestException("Board ID or name is in incorrect format");
 
-        if (isBoardExist(boardUpdateDto.getName(),Long.valueOf(boardUpdateDto.getWorkSpaceId()))) {
+        if (isBoardExist(boardUpdateDto.getName(), Long.valueOf(boardUpdateDto.getWorkSpaceId()))) {
             throw new AlreadyExistException("Board is already exist");
         }
 
@@ -62,6 +64,11 @@ public class BoardServiceImp implements BoardService {
 
         board.setName(boardUpdateDto.getName());
         return BoardViewDto.of(boardRepository.save(board));
+    }
+
+    @Override
+    public List<Board> findByWorkspace(Workspace workspace) {
+        return boardRepository.findBoardsByWorkspaceId(workspace.getId());
     }
 
     private boolean isBoardExist(String boardName, Long workspaceId) {
