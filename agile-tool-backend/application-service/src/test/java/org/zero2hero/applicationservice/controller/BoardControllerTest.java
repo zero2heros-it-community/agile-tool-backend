@@ -26,6 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = BoardCreateDto.class)
 public class BoardControllerTest {
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Mock
     private BoardService boardService;
 
