@@ -48,5 +48,4 @@ public class WorkspaceController {
         });
         return ResponseEntity.ok(boardViewDtos);
     }
-
 }
