@@ -10,6 +10,8 @@ import org.zero2hero.applicationservice.exception.IdFormatException;
 import org.zero2hero.applicationservice.exception.NotFoundException;
 import org.zero2hero.applicationservice.repository.WorkspaceRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -64,6 +66,28 @@ class WorkspaceServiceImpTest {
         assertThrows(NotFoundException.class, () -> {
             workspaceServiceImp.findWorkspaceById(nonExistingId);
         });
+    }
+
+    @Test
+    void canGetAll() {
+        //given
+        Workspace workspace1 = new Workspace();
+        Workspace workspace2 = new Workspace();
+        workspace1.setId(1L);
+        workspace1.setName("workspaceone");
+        workspace2.setId(2L);
+        workspace2.setName("workspcacetwo");
+        List<Workspace> workspaceList = new ArrayList<>();
+        workspaceList.add(workspace1);
+        workspaceList.add(workspace2);
+
+        //when
+        when(workspaceRepository.findAll()).thenReturn(workspaceList);
+        List<Workspace> workspaces = workspaceServiceImp.getAll();
+
+        //then
+        assertEquals(2, workspaces.size());
+
     }
 
 }
