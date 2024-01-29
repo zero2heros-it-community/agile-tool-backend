@@ -11,4 +11,8 @@ public interface BoardService {
     Board create(BoardCreateDto boardCreateDto);
 
     BoardViewDto update(String boardId, BoardUpdateDto boardUpdateDto) throws BadRequestException;
+
+    void delete (String boardId);
+
+
 }

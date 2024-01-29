@@ -9,6 +9,7 @@ import org.zero2hero.applicationservice.dto.BoardViewDto;
 import org.zero2hero.applicationservice.entity.Board;
 import org.zero2hero.applicationservice.entity.Workspace;
 import org.zero2hero.applicationservice.exception.AlreadyExistException;
+import org.zero2hero.applicationservice.exception.IdFormatException;
 import org.zero2hero.applicationservice.exception.NameFormatException;
 import org.zero2hero.applicationservice.exception.NotFoundException;
 import org.zero2hero.applicationservice.repository.BoardRepository;
@@ -64,12 +65,28 @@ public class BoardServiceImp implements BoardService {
         return BoardViewDto.of(boardRepository.save(board));
     }
 
-    private boolean isBoardExist(String boardName, Long workspaceId) {
+    @Override
+    public void delete(String boardId) {
+
+        if (!isAValidIdFormat(boardId))
+            throw new IdFormatException("Board Id is in incorrect format");
+
+        Board board = boardRepository.findById(Long.valueOf(boardId)).orElseThrow(() -> new NotFoundException("Board not found"));
+
+        boardRepository.delete(board);
+    }
+
+    boolean isBoardExist(String boardName, Long workspaceId) {
         return boardRepository.isBoardExistInWorkSpace(boardName, workspaceId);
     }
 
-    private boolean isAValidBoardName(String boardName) {
+    boolean isAValidBoardName(String boardName) {
 
         return boardName.matches("^[a-z]+$");
+    }
+
+    boolean isAValidIdFormat(String boardId){
+
+        return boardId.matches("\\d+");
     }
 }
