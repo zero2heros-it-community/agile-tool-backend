@@ -31,6 +31,10 @@ public class BoardServiceImp implements BoardService {
     @Override
     public Board create(BoardCreateDto boardCreateDto) {
         Board board = new Board();
+
+        if (!isAValidIdFormat(boardCreateDto.getWorkSpaceId()))
+            throw new IdFormatException("Workspace Id is in incorrect format");
+
         Workspace workspace = workspaceService.findWorkspaceById(Long.valueOf(boardCreateDto.getWorkSpaceId()));
 
         if (workspace==null)
