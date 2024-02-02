@@ -29,4 +29,11 @@ public class BoardController {
         BoardViewDto boardViewDto = boardService.update(id, boardUpdateDto);
         return new ResponseEntity<>(boardViewDto, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteBoard(@PathVariable String id) {
+        boardService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

@@ -13,6 +13,7 @@ import org.zero2hero.applicationservice.exception.NameFormatException;
 import org.zero2hero.applicationservice.exception.NotFoundException;
 import org.zero2hero.applicationservice.repository.WorkspaceRepository;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Service
@@ -53,6 +54,11 @@ public class WorkspaceServiceImp implements WorkspaceService {
         Workspace workspace = workspaceRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Workspace not found with ID: " + id));
         return workspace;
+    }
+
+    @Override
+    public List<Workspace> getAll() {
+        return workspaceRepository.findAll();
     }
 
     private boolean isNameRightFormat(String name) {

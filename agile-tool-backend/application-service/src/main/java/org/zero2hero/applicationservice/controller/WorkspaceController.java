@@ -9,7 +9,9 @@ import org.zero2hero.applicationservice.dto.WorkspaceViewDto;
 import org.zero2hero.applicationservice.entity.Workspace;
 import org.zero2hero.applicationservice.service.WorkspaceService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -38,6 +40,17 @@ public class WorkspaceController {
        Map<String,Boolean> map = new HashMap<>();
        map.put("Workspace is successfully deleted",true);
        return new ResponseEntity<>(map,HttpStatus.OK);
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> getAll() {
+        List<Workspace> workspaceList = workspaceService.getAll();
+        List<WorkspaceViewDto> viewDtos = new ArrayList<>();
+        workspaceList.forEach(workspace -> {
+            viewDtos.add(WorkspaceViewDto.of(workspace));
+        });
+
+        return new ResponseEntity<>(viewDtos, HttpStatus.OK);
     }
 
 }

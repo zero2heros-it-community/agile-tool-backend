@@ -17,6 +17,9 @@ import org.zero2hero.applicationservice.exception.CustomExceptionHandler;
 import org.zero2hero.applicationservice.exception.NameFormatException;
 import org.zero2hero.applicationservice.service.WorkspaceService;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -89,7 +92,7 @@ class WorkspaceControllerTest {
     public void canGetWorkspace() throws Exception {
         // given
         Long workspaceId = 1L;
-        Workspace workspace = new Workspace();
+        Workspace workspace = new Workspace(); // Varsayılan değerlerle dolu bir workspace nesnesi
         workspace.setId(workspaceId);
         workspace.setName("testWorkspace");
 
@@ -102,7 +105,7 @@ class WorkspaceControllerTest {
                 .build();
 
         // then
-        mockMvc.perform(get("/application/api/v1/work-space/" + workspaceId)
+        mockMvc.perform(get("/api/v1/work-space/" + workspaceId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(workspace.getId().toString()))
@@ -131,4 +134,35 @@ class WorkspaceControllerTest {
     }
 
 
+
+    @Test
+    public void canGetAll() throws Exception {
+        // given
+        Workspace workspace1 = new Workspace();
+        workspace1.setId(1L);
+        workspace1.setName("workspaceone");
+
+        Workspace workspace2 = new Workspace();
+        workspace2.setId(2L);
+        workspace2.setName("workspacetwo");
+
+        List<Workspace> mockWorkspaceList = Arrays.asList(workspace1, workspace2);
+
+        // when
+        when(workspaceService.getAll()).thenReturn(mockWorkspaceList);
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(workspaceController)
+                .setControllerAdvice(new CustomExceptionHandler())
+                .build();
+
+         //then
+        mockMvc.perform(get("/application/api/v1/work-space")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(mockWorkspaceList.size()))
+                .andExpect(jsonPath("$[0].id").value(workspace1.getId()))
+                .andExpect(jsonPath("$[0].name").value(workspace1.getName()))
+                .andExpect(jsonPath("$[1].id").value(workspace2.getId()))
+                .andExpect(jsonPath("$[1].name").value(workspace2.getName()));
+
+    }
 }
