@@ -35,11 +35,9 @@ public class WorkspaceController {
             return new ResponseEntity<>(WorkspaceViewDto.of(workspace), HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String,Boolean>> deleteWorkspace(@PathVariable Long id){
+    public ResponseEntity<?> deleteWorkspace(@PathVariable Long id){
         workspaceService.deleteWorkspaceById(id);
-       Map<String,Boolean> map = new HashMap<>();
-       map.put("Workspace is successfully deleted",true);
-       return new ResponseEntity<>(map,HttpStatus.OK);
+       return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping()

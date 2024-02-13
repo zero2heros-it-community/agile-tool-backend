@@ -72,7 +72,7 @@ public class WorkspaceServiceImp implements WorkspaceService {
         }
         Workspace workspace = workspaceRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Workspace is not found"));
-      workspaceRepository.deleteById(id);
+      workspaceRepository.delete(workspace);
     }
     private boolean isValidIdFormat(Long id){
         return id != null && id>0;
