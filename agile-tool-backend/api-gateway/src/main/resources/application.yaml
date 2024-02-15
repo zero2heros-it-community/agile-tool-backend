@@ -1,6 +1,14 @@
 server:
   port: 8080
+
+
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://54.221.95.209:8443/realms/agile-tool
+
   application:
     name: API-GATEWAY-SERVICE
   cloud:
