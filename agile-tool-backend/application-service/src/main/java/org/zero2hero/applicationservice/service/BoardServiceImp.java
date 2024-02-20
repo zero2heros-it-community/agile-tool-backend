@@ -1,6 +1,5 @@
 package org.zero2hero.applicationservice.service;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.zero2hero.applicationservice.dto.BoardCreateDto;
@@ -53,10 +52,8 @@ public class BoardServiceImp implements BoardService {
     }
 
     @Override
-    public BoardViewDto update(String id, BoardUpdateDto boardUpdateDto) throws BadRequestException {
+    public BoardViewDto update(String id, BoardUpdateDto boardUpdateDto)  {
 
-        if (!isAValidBoardName(boardUpdateDto.getName()))
-            throw new BadRequestException("Board ID or name is in incorrect format");
 
         if (isBoardExist(boardUpdateDto.getName(),Long.valueOf(boardUpdateDto.getWorkSpaceId()))) {
             throw new AlreadyExistException("Board is already exist");

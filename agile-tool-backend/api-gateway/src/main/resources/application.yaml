@@ -2,12 +2,23 @@ server:
   port: 8080
 
 
+
+
+jwt:
+  auth:
+    converter:
+      resource-id: agile-tool
+      principle-attribute: preferred_username
+
+
+
 spring:
   security:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: https://54.221.95.209:8443/realms/agile-tool
+          issuer-uri: http://18.206.245.138:8080/realms/master
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
   application:
     name: API-GATEWAY-SERVICE
