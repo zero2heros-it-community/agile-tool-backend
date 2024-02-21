@@ -17,8 +17,11 @@ import java.util.List;
 @RequestMapping("/application/api/v1/work-space")
 public class WorkspaceController {
 
+    private final WorkspaceService workspaceService;
     @Autowired
-    WorkspaceService workspaceService;
+    public WorkspaceController(WorkspaceService workspaceService) {
+        this.workspaceService = workspaceService;
+    }
 
     @PostMapping
     public ResponseEntity<WorkspaceViewDto> createWorkspace(@RequestBody WorkspaceCreateDto workspaceCreateDto) {
@@ -42,6 +45,12 @@ public class WorkspaceController {
         });
 
         return new ResponseEntity<>(viewDtos, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<WorkspaceViewDto> updateOneWorkspace(@PathVariable Long id, @RequestBody WorkspaceCreateDto workspaceCreateDto ){
+        WorkspaceViewDto updatedOneWorkspaceViewDto = workspaceService.updateOneWorkspace(id, workspaceCreateDto);
+        return new ResponseEntity<>(updatedOneWorkspaceViewDto, HttpStatus.OK);
     }
 
 }

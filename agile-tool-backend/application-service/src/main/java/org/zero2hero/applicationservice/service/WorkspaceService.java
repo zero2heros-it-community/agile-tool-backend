@@ -13,4 +13,6 @@ public interface WorkspaceService {
     Workspace findWorkspaceById(Long id);
 
     List<Workspace> getAll();
+
+    WorkspaceViewDto updateOneWorkspace(Long id, WorkspaceCreateDto workspaceCreate);
 }

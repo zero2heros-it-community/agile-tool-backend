@@ -5,8 +5,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.zero2hero.applicationservice.dto.WorkspaceCreateDto;
+import org.zero2hero.applicationservice.dto.WorkspaceViewDto;
 import org.zero2hero.applicationservice.entity.Workspace;
 import org.zero2hero.applicationservice.exception.IdFormatException;
+import org.zero2hero.applicationservice.exception.NameFormatException;
 import org.zero2hero.applicationservice.exception.NotFoundException;
 import org.zero2hero.applicationservice.repository.WorkspaceRepository;
 
@@ -15,7 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class WorkspaceServiceImpTest {
@@ -87,6 +91,23 @@ class WorkspaceServiceImpTest {
 
         //then
         assertEquals(2, workspaces.size());
+
+    }
+    @Test
+    void updateOneWorkspace_ShouldThrowNameFormatException_WhenWorkspaceNotFound() {
+        // Arrange
+        Long nonExistingId = 2L;
+        WorkspaceCreateDto workspaceCreateDto = new WorkspaceCreateDto();
+        workspaceCreateDto.setName("New Workspace Name");
+
+        when(workspaceRepository.findById(nonExistingId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(NameFormatException.class, () -> {
+            workspaceServiceImp.updateOneWorkspace(nonExistingId, workspaceCreateDto);
+        });
+        verify(workspaceRepository, times(1)).findById(nonExistingId);
+        verify(workspaceRepository, never()).save(any());
 
     }
 

@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 @Service
 public class WorkspaceServiceImp implements WorkspaceService {
     private final KafkaTemplate kafkaTemplate;
+    private final WorkspaceRepository workspaceRepository;
 
     @Autowired
     public WorkspaceServiceImp(KafkaTemplate kafkaTemplate, WorkspaceRepository workspaceRepository) {
@@ -25,8 +26,6 @@ public class WorkspaceServiceImp implements WorkspaceService {
         this.workspaceRepository = workspaceRepository;
     }
 
-//    @Autowired
-    private WorkspaceRepository workspaceRepository;
 
     @Override
     public WorkspaceViewDto create(WorkspaceCreateDto workspaceCreateDto) {
@@ -63,5 +62,22 @@ public class WorkspaceServiceImp implements WorkspaceService {
     private boolean isNameRightFormat(String name) {
         Pattern pattern = Pattern.compile("^[a-z]+$");
         return pattern.matcher(name).matches();
+    }
+
+    @Override
+    public WorkspaceViewDto updateOneWorkspace (Long id, WorkspaceCreateDto workspaceCreateDto){
+        Workspace existingWorkspace = workspaceRepository.findById(id).
+                orElseThrow(() -> new NameFormatException(("Workspace not found with ID: " + id)));
+
+        if(!isNameRightFormat(workspaceCreateDto.getName())){
+            throw new NameFormatException("Workspace name is in incorrect format");
+        }
+
+        existingWorkspace.setName(workspaceCreateDto.getName());
+        Workspace updatedOneWorkspace = workspaceRepository.save(existingWorkspace);
+
+        this.kafkaTemplate.send("first_topic", "user-key", updatedOneWorkspace);
+        return WorkspaceViewDto.of(updatedOneWorkspace);
+
     }
 }

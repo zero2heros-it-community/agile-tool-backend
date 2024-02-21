@@ -22,8 +22,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -138,5 +137,38 @@ class WorkspaceControllerTest {
                 .andExpect(jsonPath("$[1].id").value(workspace2.getId()))
                 .andExpect(jsonPath("$[1].name").value(workspace2.getName()));
 
+    }
+
+    @Test
+    public void canUpdateOneWorkspace() throws Exception {
+
+        Long workspaceId = 1L;
+        String updatedWorkspaceName = "updatedWorkspaceName";
+        WorkspaceCreateDto updatedWorkspaceCreateDto = new WorkspaceCreateDto();
+        updatedWorkspaceCreateDto.setName(updatedWorkspaceName);
+
+        Workspace existingWorkspace = new Workspace();
+        existingWorkspace.setId(workspaceId);
+        existingWorkspace.setName("oldWorkspaceName");
+
+        Workspace updatedWorkspace = new Workspace();
+        updatedWorkspace.setId(workspaceId);
+        updatedWorkspace.setName(updatedWorkspaceName);
+
+        WorkspaceViewDto expectedWorkspaceViewDto = WorkspaceViewDto.of(updatedWorkspace);
+
+
+        when(workspaceService.updateOneWorkspace(workspaceId, updatedWorkspaceCreateDto)).thenReturn(expectedWorkspaceViewDto);
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(workspaceController)
+                .setControllerAdvice(new CustomExceptionHandler())
+                .build();
+
+
+        mockMvc.perform(put("/application/api/v1/work-space/" + workspaceId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedWorkspaceCreateDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(expectedWorkspaceViewDto.getId()))
+                .andExpect(jsonPath("$.name").value(expectedWorkspaceViewDto.getName()));
     }
 }
