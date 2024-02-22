@@ -13,4 +13,6 @@ public interface WorkspaceService {
     Workspace findWorkspaceById(Long id);
 
     List<Workspace> getAll();
+
+    void deleteWorkspaceById(Long id);
 }
