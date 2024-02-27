@@ -1,4 +1,4 @@
-package org.zero2hero;
+package org.zero2hero.applicationservice.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;

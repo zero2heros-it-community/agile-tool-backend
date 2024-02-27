@@ -2,17 +2,10 @@ server:
   port: 8080
 
 
-
-
-jwt:
-  auth:
-    converter:
-      resource-id: agile-tool
-      principle-attribute: preferred_username
-
-
-
 spring:
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
   security:
     oauth2:
       resourceserver:

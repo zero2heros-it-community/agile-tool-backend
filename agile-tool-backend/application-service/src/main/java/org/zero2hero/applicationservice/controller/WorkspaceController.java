@@ -8,9 +8,11 @@ import org.zero2hero.applicationservice.dto.WorkspaceCreateDto;
 import org.zero2hero.applicationservice.dto.WorkspaceViewDto;
 import org.zero2hero.applicationservice.entity.Workspace;
 import org.zero2hero.applicationservice.service.WorkspaceService;
+import org.zero2hero.applicationservice.util.LoggedUsername;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -22,6 +24,8 @@ public class WorkspaceController {
 
     @PostMapping
     public ResponseEntity<WorkspaceViewDto> createWorkspace(@RequestBody WorkspaceCreateDto workspaceCreateDto) {
+        String username = LoggedUsername.getUsernameFromAuthentication();
+        System.out.println("Username :"+username);
         WorkspaceViewDto workspaceViewDto = workspaceService.create(
                 workspaceCreateDto);
         return new ResponseEntity<>(workspaceViewDto, HttpStatus.CREATED);
