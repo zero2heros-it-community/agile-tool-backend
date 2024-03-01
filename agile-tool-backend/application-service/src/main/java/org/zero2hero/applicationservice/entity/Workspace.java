@@ -20,6 +20,8 @@ public class Workspace {
 
     @Column(name = "workspace_name")
     private String name;
+    @Column(name = "username")
+    private String username;
 
 
 }

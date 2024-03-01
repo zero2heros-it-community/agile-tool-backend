@@ -12,8 +12,9 @@ public class WorkspaceViewDto {
 
     private String id;
     private String name;
+    private String username;
 
     public static WorkspaceViewDto of(Workspace workspace) {
-        return new WorkspaceViewDto(workspace.getId().toString(), workspace.getName());
+        return new WorkspaceViewDto(workspace.getId().toString(), workspace.getName(),workspace.getUsername());
     }
 }

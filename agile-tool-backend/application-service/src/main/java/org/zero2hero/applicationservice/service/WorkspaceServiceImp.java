@@ -11,6 +11,7 @@ import org.zero2hero.applicationservice.exception.IdFormatException;
 import org.zero2hero.applicationservice.exception.NameFormatException;
 import org.zero2hero.applicationservice.exception.NotFoundException;
 import org.zero2hero.applicationservice.repository.WorkspaceRepository;
+import org.zero2hero.applicationservice.util.LoggedUsername;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -25,7 +26,7 @@ public class WorkspaceServiceImp implements WorkspaceService {
         this.workspaceRepository = workspaceRepository;
     }
 
-//    @Autowired
+    //    @Autowired
     private WorkspaceRepository workspaceRepository;
 
     @Override
@@ -34,12 +35,13 @@ public class WorkspaceServiceImp implements WorkspaceService {
         if (!isNameRightFormat(workspaceCreateDto.getName())) {
             throw new NameFormatException("workspace name is in incorrect format");
         }
-        if(workspaceRepository.findByName(workspaceCreateDto.getName()).isPresent()){
+        if (workspaceRepository.findByName(workspaceCreateDto.getName()).isPresent()) {
             throw new AlreadyExistException(" workspace is already exist");
         }
-
+        String username = LoggedUsername.getUsernameFromAuthentication();
         Workspace workspace = new Workspace();
         workspace.setName(workspaceCreateDto.getName());
+        workspace.setUsername(username);
         workspace = workspaceRepository.save(workspace);
         System.out.println("Workspace" + workspace);
         this.kafkaTemplate.send("first_topic", "user-key", workspace);
