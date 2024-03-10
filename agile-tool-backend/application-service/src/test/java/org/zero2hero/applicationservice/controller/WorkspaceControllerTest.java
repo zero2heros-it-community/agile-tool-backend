@@ -21,15 +21,16 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
 @ContextConfiguration(classes = WorkspaceCreateDto.class)
 class WorkspaceControllerTest {
+
 
 
     @Autowired
@@ -40,6 +41,8 @@ class WorkspaceControllerTest {
 
     @InjectMocks
     private WorkspaceController workspaceController;
+
+
 
 
     @Test
@@ -55,7 +58,7 @@ class WorkspaceControllerTest {
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(workspaceController).build();
 
         // then
-        mockMvc.perform(post("/application/api/v1/work-space")
+        mockMvc.perform(post("/api/v1/work-space")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(workspaceCreateDto)))
                 .andExpect(status().isCreated());
@@ -75,7 +78,7 @@ class WorkspaceControllerTest {
                 .build();
 
         // then
-        mockMvc.perform(post("/application/api/v1/work-space")
+        mockMvc.perform(post("/api/v1/work-space")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(workspaceCreateDto)))
                 .andExpect(status().isBadRequest())
@@ -102,12 +105,35 @@ class WorkspaceControllerTest {
                 .build();
 
         // then
-        mockMvc.perform(get("/application/api/v1/work-space/" + workspaceId)
+        mockMvc.perform(get("/api/v1/work-space/" + workspaceId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(workspace.getId().toString()))
                 .andExpect(jsonPath("$.name").value(workspace.getName()));
     }
+
+    @Test
+    public void canDeleteWorkspace() throws Exception{
+        //  Given
+        Long workspaceId=1L;
+        Workspace workspace = new Workspace();
+        workspace.setId(workspaceId);
+        workspace.setName("testWorkspace");
+
+        //When
+        doNothing().when(workspaceService).deleteWorkspaceById(workspaceId);
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(workspaceController)
+                .setControllerAdvice(new CustomExceptionHandler())
+                .build();
+
+        //Then
+        mockMvc.perform(delete("/application/api/v1/work-space/" + workspaceId)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.['Workspace is successfully deleted']").value(true));
+    }
+
+
 
     @Test
     public void canGetAll() throws Exception {

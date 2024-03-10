@@ -1,5 +1,6 @@
 package org.zero2hero.applicationservice.service;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -65,5 +66,17 @@ public class WorkspaceServiceImp implements WorkspaceService {
     private boolean isNameRightFormat(String name) {
         Pattern pattern = Pattern.compile("^[a-z]+$");
         return pattern.matcher(name).matches();
+    }
+
+    public void deleteWorkspaceById(Long id){
+        if(!isValidIdFormat(id)){
+            throw new IdFormatException("Id is in incorrect format");
+        }
+        Workspace workspace = workspaceRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Workspace is not found"));
+      workspaceRepository.delete(workspace);
+    }
+    private boolean isValidIdFormat(Long id){
+        return id != null && id>0;
     }
 }
