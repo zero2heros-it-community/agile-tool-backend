@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.zero2hero.applicationservice.dto.BoardViewDto;
 import org.zero2hero.applicationservice.dto.WorkspaceCreateDto;
 import org.zero2hero.applicationservice.dto.WorkspaceViewDto;
+import org.zero2hero.applicationservice.entity.Board;
 import org.zero2hero.applicationservice.entity.Workspace;
 import org.zero2hero.applicationservice.service.WorkspaceService;
 
@@ -51,4 +53,14 @@ public class WorkspaceController {
         return new ResponseEntity<>(viewDtos, HttpStatus.OK);
     }
 
+    @GetMapping("{id}/boards")
+    public ResponseEntity<?> getWorkspacesWithBoards(@PathVariable Long id) {
+
+        List<Board> boards = workspaceService.getBoardsOfWorkspace(id);
+        List<BoardViewDto> boardViewDtos = new ArrayList<>();
+        boards.forEach(board -> {
+            boardViewDtos.add(BoardViewDto.of(board));
+        });
+        return ResponseEntity.ok(boardViewDtos);
+    }
 }

@@ -14,6 +14,8 @@ import org.zero2hero.applicationservice.exception.NameFormatException;
 import org.zero2hero.applicationservice.exception.NotFoundException;
 import org.zero2hero.applicationservice.repository.BoardRepository;
 
+import java.util.List;
+
 @Service
 public class BoardServiceImp implements BoardService {
     private final KafkaTemplate kafkaTemplate;
@@ -79,7 +81,10 @@ public class BoardServiceImp implements BoardService {
 
         boardRepository.delete(board);
     }
-
+    @Override
+    public List<Board> findByWorkspace(Workspace workspace) {
+        return boardRepository.findBoardsByWorkspaceId(workspace.getId());
+    }
     boolean isBoardExist(String boardName, Long workspaceId) {
         return boardRepository.isBoardExistInWorkSpace(boardName, workspaceId);
     }

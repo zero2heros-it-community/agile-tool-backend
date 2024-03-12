@@ -6,6 +6,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.zero2hero.applicationservice.dto.WorkspaceCreateDto;
 import org.zero2hero.applicationservice.dto.WorkspaceViewDto;
+import org.zero2hero.applicationservice.entity.Board;
 import org.zero2hero.applicationservice.entity.Workspace;
 import org.zero2hero.applicationservice.exception.AlreadyExistException;
 import org.zero2hero.applicationservice.exception.IdFormatException;
@@ -20,14 +21,17 @@ import java.util.regex.Pattern;
 public class WorkspaceServiceImp implements WorkspaceService {
     private final KafkaTemplate kafkaTemplate;
 
+
     @Autowired
-    public WorkspaceServiceImp(KafkaTemplate kafkaTemplate, WorkspaceRepository workspaceRepository) {
+    public WorkspaceServiceImp(KafkaTemplate kafkaTemplate, WorkspaceRepository workspaceRepository, BoardService boardService) {
         this.kafkaTemplate = kafkaTemplate;
         this.workspaceRepository = workspaceRepository;
+        this.boardService= boardService;
     }
 
-//    @Autowired
+    //    @Autowired
     private WorkspaceRepository workspaceRepository;
+    private BoardService boardService;
 
     @Override
     public WorkspaceViewDto create(WorkspaceCreateDto workspaceCreateDto) {
@@ -35,7 +39,7 @@ public class WorkspaceServiceImp implements WorkspaceService {
         if (!isNameRightFormat(workspaceCreateDto.getName())) {
             throw new NameFormatException("workspace name is in incorrect format");
         }
-        if(workspaceRepository.findByName(workspaceCreateDto.getName()).isPresent()){
+        if (workspaceRepository.findByName(workspaceCreateDto.getName()).isPresent()) {
             throw new AlreadyExistException(" workspace is already exist");
         }
 
@@ -66,15 +70,22 @@ public class WorkspaceServiceImp implements WorkspaceService {
         return pattern.matcher(name).matches();
     }
 
-    public void deleteWorkspaceById(Long id){
-        if(!isValidIdFormat(id)){
+    public void deleteWorkspaceById(Long id) {
+        if (!isValidIdFormat(id)) {
             throw new IdFormatException("Id is in incorrect format");
         }
         Workspace workspace = workspaceRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Workspace is not found"));
-      workspaceRepository.delete(workspace);
+        workspaceRepository.delete(workspace);
     }
-    private boolean isValidIdFormat(Long id){
-        return id != null && id>0;
+
+    @Override
+    public List<Board> getBoardsOfWorkspace(Long id) {
+        Workspace workspace = findWorkspaceById(id);
+        return boardService.findByWorkspace(workspace);
+    }
+
+    private boolean isValidIdFormat(Long id) {
+        return id != null && id > 0;
     }
 }
