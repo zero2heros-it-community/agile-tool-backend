@@ -52,7 +52,7 @@ public class WorkspaceController {
         return new ResponseEntity<>(viewDtos, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PutMapping
     public ResponseEntity<?> updateWorkspace(@RequestBody WorkspaceCreateDto workspaceCreateDto){
         WorkspaceViewDto workspaceViewDto = workspaceService.update(
                 workspaceCreateDto);
