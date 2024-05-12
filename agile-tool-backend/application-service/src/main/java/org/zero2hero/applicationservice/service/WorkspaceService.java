@@ -14,5 +14,7 @@ public interface WorkspaceService {
 
     List<Workspace> getAll();
 
+    WorkspaceViewDto update(WorkspaceCreateDto workspaceCreateDto);
+
     void deleteWorkspaceById(Long id);
 }

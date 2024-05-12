@@ -11,9 +11,7 @@ import org.zero2hero.applicationservice.service.WorkspaceService;
 import org.zero2hero.applicationservice.util.LoggedUsername;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -52,6 +50,13 @@ public class WorkspaceController {
         });
 
         return new ResponseEntity<>(viewDtos, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> updateWorkspace(@RequestBody WorkspaceCreateDto workspaceCreateDto){
+        WorkspaceViewDto workspaceViewDto = workspaceService.update(
+                workspaceCreateDto);
+        return new ResponseEntity<>(workspaceViewDto, HttpStatus.OK);
     }
 
 }
