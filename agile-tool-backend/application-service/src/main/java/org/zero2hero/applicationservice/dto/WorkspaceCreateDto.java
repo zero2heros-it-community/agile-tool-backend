@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class WorkspaceCreateDto {
     private String name;
+    private Long id;
 
 }

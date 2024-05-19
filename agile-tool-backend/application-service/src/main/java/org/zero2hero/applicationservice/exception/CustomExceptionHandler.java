@@ -11,28 +11,38 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(NameFormatException.class)
     public ResponseEntity<?> wrongFormat(NameFormatException nameFormatException) {
-        ErrorResponse errorResponse = new ErrorResponse(nameFormatException.getMessage(),  HttpStatus.BAD_REQUEST.value());
+        ErrorResponse errorResponse = new ErrorResponse(nameFormatException.getMessage(), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(AlreadyExistException.class)
-    public ResponseEntity<?> alreadyExist(AlreadyExistException alreadyExistException){
+    public ResponseEntity<?> alreadyExist(AlreadyExistException alreadyExistException) {
         ErrorResponse errorResponse = new ErrorResponse(alreadyExistException.getMessage(), HttpStatus.FORBIDDEN.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
+
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<?> notFound(NotFoundException notFoundException){
+    public ResponseEntity<?> notFound(NotFoundException notFoundException) {
         ErrorResponse errorResponse = new ErrorResponse(notFoundException.getMessage(), HttpStatus.NOT_FOUND.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(ForbiddenException.class)
-    public ResponseEntity<?> forbidden(ForbiddenException forbiddenException){
+    public ResponseEntity<?> forbidden(ForbiddenException forbiddenException) {
         ErrorResponse errorResponse = new ErrorResponse(forbiddenException.getMessage(), HttpStatus.FORBIDDEN.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
+
     @ExceptionHandler(IdFormatException.class)
-    public ResponseEntity<?> idFormat(IdFormatException idFormatException){
+    public ResponseEntity<?> idFormat(IdFormatException idFormatException) {
         ErrorResponse errorResponse = new ErrorResponse(idFormatException.getMessage(), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(BelongsToAnotherUserException.class)
+    public ResponseEntity belongToAnotherUser(BelongsToAnotherUserException exception) {
+
+        ErrorResponse errorResponse = new ErrorResponse(exception.getMessage(), HttpStatus.UNAUTHORIZED.value());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
 }

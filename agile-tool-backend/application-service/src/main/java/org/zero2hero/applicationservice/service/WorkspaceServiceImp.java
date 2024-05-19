@@ -1,16 +1,12 @@
 package org.zero2hero.applicationservice.service;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.zero2hero.applicationservice.dto.WorkspaceCreateDto;
 import org.zero2hero.applicationservice.dto.WorkspaceViewDto;
 import org.zero2hero.applicationservice.entity.Workspace;
-import org.zero2hero.applicationservice.exception.AlreadyExistException;
-import org.zero2hero.applicationservice.exception.IdFormatException;
-import org.zero2hero.applicationservice.exception.NameFormatException;
-import org.zero2hero.applicationservice.exception.NotFoundException;
+import org.zero2hero.applicationservice.exception.*;
 import org.zero2hero.applicationservice.repository.WorkspaceRepository;
 import org.zero2hero.applicationservice.util.LoggedUsername;
 
@@ -63,20 +59,42 @@ public class WorkspaceServiceImp implements WorkspaceService {
         return workspaceRepository.findAll();
     }
 
+    @Override
+    public WorkspaceViewDto update(WorkspaceCreateDto workspaceCreateDto) {
+        if (!isNameRightFormat(workspaceCreateDto.getName())) {
+            throw new NameFormatException("workspace name is in incorrect format");
+        }
+        if (workspaceRepository.findByName(workspaceCreateDto.getName()).isPresent()) {
+            throw new AlreadyExistException(" workspace is already exist");
+        }
+
+        String username = LoggedUsername.getUsernameFromAuthentication();
+        Workspace workspace = findWorkspaceById(workspaceCreateDto.getId());
+        if (!workspace.getUsername().equals(username)) {
+            throw new BelongsToAnotherUserException("Workspace with Id " +
+                    workspaceCreateDto.getId() + " belongs to another user");
+        }
+        workspace.setName(workspaceCreateDto.getName());
+        workspace.setUsername(username);
+        workspace = workspaceRepository.save(workspace);
+        return WorkspaceViewDto.of(workspace);
+    }
+
     private boolean isNameRightFormat(String name) {
         Pattern pattern = Pattern.compile("^[a-z]+$");
         return pattern.matcher(name).matches();
     }
 
-    public void deleteWorkspaceById(Long id){
-        if(!isValidIdFormat(id)){
+    public void deleteWorkspaceById(Long id) {
+        if (!isValidIdFormat(id)) {
             throw new IdFormatException("Id is in incorrect format");
         }
         Workspace workspace = workspaceRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Workspace is not found"));
-      workspaceRepository.delete(workspace);
+        workspaceRepository.delete(workspace);
     }
-    private boolean isValidIdFormat(Long id){
-        return id != null && id>0;
+
+    private boolean isValidIdFormat(Long id) {
+        return id != null && id > 0;
     }
 }
