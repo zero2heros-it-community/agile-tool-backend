@@ -7,11 +7,9 @@ import org.zero2hero.applicationservice.dto.BoardUpdateDto;
 import org.zero2hero.applicationservice.dto.BoardViewDto;
 import org.zero2hero.applicationservice.entity.Board;
 import org.zero2hero.applicationservice.entity.Workspace;
-import org.zero2hero.applicationservice.exception.AlreadyExistException;
-import org.zero2hero.applicationservice.exception.IdFormatException;
-import org.zero2hero.applicationservice.exception.NameFormatException;
-import org.zero2hero.applicationservice.exception.NotFoundException;
+import org.zero2hero.applicationservice.exception.*;
 import org.zero2hero.applicationservice.repository.BoardRepository;
+import org.zero2hero.applicationservice.util.LoggedUsername;
 
 @Service
 public class BoardServiceImp implements BoardService {
@@ -36,12 +34,12 @@ public class BoardServiceImp implements BoardService {
 
         Workspace workspace = workspaceService.findWorkspaceById(Long.valueOf(boardCreateDto.getWorkSpaceId()));
 
-        if (workspace==null)
+        if (workspace == null)
             throw new NotFoundException("workspace not found");
         if (isBoardExist(boardCreateDto.getName(), Long.valueOf(boardCreateDto.getWorkSpaceId())))
             throw new AlreadyExistException("board is already exist");
         if (!isAValidBoardName(boardCreateDto.getName()))
-          throw new NameFormatException("Board name is in incorrect format");
+            throw new NameFormatException("Board name is in incorrect format");
 
         board.setName(boardCreateDto.getName());
         board.setWorkspace(workspace);
@@ -52,10 +50,10 @@ public class BoardServiceImp implements BoardService {
     }
 
     @Override
-    public BoardViewDto update(String id, BoardUpdateDto boardUpdateDto)  {
+    public BoardViewDto update(String id, BoardUpdateDto boardUpdateDto) {
 
 
-        if (isBoardExist(boardUpdateDto.getName(),Long.valueOf(boardUpdateDto.getWorkSpaceId()))) {
+        if (isBoardExist(boardUpdateDto.getName(), Long.valueOf(boardUpdateDto.getWorkSpaceId()))) {
             throw new AlreadyExistException("Board is already exist");
         }
 
@@ -77,6 +75,18 @@ public class BoardServiceImp implements BoardService {
         boardRepository.delete(board);
     }
 
+    @Override
+    public Board findBoardById(Long Id) {
+        Board board = boardRepository.findById(Id).orElseThrow(
+                () -> new NotFoundException("Board Not found"));
+        String username = LoggedUsername.getUsernameFromAuthentication();
+        if (!board.getWorkspace().getUsername().equals(username)) {
+            throw new BelongsToAnotherUserException(" Board belongs to another user");
+        }
+
+        return board;
+    }
+
     boolean isBoardExist(String boardName, Long workspaceId) {
         return boardRepository.isBoardExistInWorkSpace(boardName, workspaceId);
     }
@@ -86,7 +96,7 @@ public class BoardServiceImp implements BoardService {
         return boardName.matches("^[a-z]+$");
     }
 
-    boolean isAValidIdFormat(String boardId){
+    boolean isAValidIdFormat(String boardId) {
 
         return boardId.matches("\\d+");
     }
