@@ -34,7 +34,7 @@ public class BoardController {
         boardService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id){
         BoardViewDto boardViewDto= BoardViewDto.of(boardService.findBoardById(id));
         return new ResponseEntity<>(boardViewDto,HttpStatus.OK);
