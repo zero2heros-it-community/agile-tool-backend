@@ -13,4 +13,5 @@ public interface BoardService {
     void delete (String boardId);
 
 
+    Board findBoardById(Long Id);
 }
