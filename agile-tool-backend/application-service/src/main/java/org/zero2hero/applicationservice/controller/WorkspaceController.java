@@ -43,9 +43,9 @@ public class WorkspaceController {
 
     @GetMapping()
     public ResponseEntity<?> getAll() {
-        List<Workspace> workspaceList = workspaceService.getAll();
+        List<Workspace> workspacesOfUser = workspaceService.getWorkspacesOfUser();
         List<WorkspaceViewDto> viewDtos = new ArrayList<>();
-        workspaceList.forEach(workspace -> {
+        workspacesOfUser.forEach(workspace -> {
             viewDtos.add(WorkspaceViewDto.of(workspace));
         });
 
