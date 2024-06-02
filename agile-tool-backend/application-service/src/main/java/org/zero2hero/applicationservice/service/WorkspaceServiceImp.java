@@ -79,6 +79,15 @@ public class WorkspaceServiceImp implements WorkspaceService {
         workspace = workspaceRepository.save(workspace);
         return WorkspaceViewDto.of(workspace);
     }
+    @Override
+    public List<Workspace> getWorkspacesOfUser() {
+        String username = LoggedUsername.getUsernameFromAuthentication();
+        List<Workspace> workspacesOfUser= workspaceRepository.findByUsername(username);
+        if(workspacesOfUser.size()<1){
+            throw new NotFoundException(username+" has no Workspace");
+        }
+        return workspacesOfUser;
+    }
 
     private boolean isNameRightFormat(String name) {
         Pattern pattern = Pattern.compile("^[a-z]+$");
