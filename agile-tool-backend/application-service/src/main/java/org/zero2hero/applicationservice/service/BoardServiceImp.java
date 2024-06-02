@@ -11,6 +11,8 @@ import org.zero2hero.applicationservice.exception.*;
 import org.zero2hero.applicationservice.repository.BoardRepository;
 import org.zero2hero.applicationservice.util.LoggedUsername;
 
+import java.util.List;
+
 @Service
 public class BoardServiceImp implements BoardService {
     private final KafkaTemplate kafkaTemplate;
@@ -85,6 +87,16 @@ public class BoardServiceImp implements BoardService {
         }
 
         return board;
+    }
+
+    @Override
+    public List<Board> findByWorkspaceId(Long workspaceId) {
+       Workspace workspace= workspaceService.findWorkspaceById(workspaceId);
+        String username = LoggedUsername.getUsernameFromAuthentication();
+        if (!workspace.getUsername().equals(username)){
+            throw new BelongsToAnotherUserException("Workspace "+workspaceId+" belongs to another user");
+        }
+        return boardRepository.findBoardsByWorkspaceId(workspaceId);
     }
 
     boolean isBoardExist(String boardName, Long workspaceId) {
