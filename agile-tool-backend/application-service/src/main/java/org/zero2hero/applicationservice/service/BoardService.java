@@ -5,6 +5,8 @@ import org.zero2hero.applicationservice.dto.BoardUpdateDto;
 import org.zero2hero.applicationservice.dto.BoardViewDto;
 import org.zero2hero.applicationservice.entity.Board;
 
+import java.util.List;
+
 public interface BoardService {
     Board create(BoardCreateDto boardCreateDto);
 
@@ -12,6 +14,7 @@ public interface BoardService {
 
     void delete (String boardId);
 
-
     Board findBoardById(Long Id);
+
+    List<Board> findByWorkspaceId(Long workspaceId);
 }
