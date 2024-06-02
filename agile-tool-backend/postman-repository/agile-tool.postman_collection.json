@@ -1,0 +1,859 @@
+{
+	"info": {
+		"_postman_id": "32a96274-020d-4002-80e1-1bf1fafa9a8c",
+		"name": "agile-tool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5233652"
+	},
+	"item": [
+		{
+			"name": "api-gateway",
+			"item": [
+				{
+					"name": "workspace",
+					"item": [
+						{
+							"name": "create-workspace",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "password",
+											"value": "test_client",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "test_client",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": " http://57.129.12.119:8080/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "agile-tool",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "token3",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"newttworkspace\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/application/api/v1/work-space",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"application",
+										"api",
+										"v1",
+										"work-space"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-workspace",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessTokenUrl",
+											"value": " http://57.129.12.119:8080/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "agile-tool",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "token3",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/application/api/v1/work-space/303",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"application",
+										"api",
+										"v1",
+										"work-space",
+										"303"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-workspacesOfUser",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "password",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": " http://57.129.12.119:8080/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "agile-tool",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "token3",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/application/api/v1/work-space",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"application",
+										"api",
+										"v1",
+										"work-space"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-workspace",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessTokenUrl",
+											"value": " http://57.129.12.119:8080/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "agile-tool",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "token3",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/application/api/v1/work-space/302",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"application",
+										"api",
+										"v1",
+										"work-space",
+										"302"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update-workspace",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessTokenUrl",
+											"value": " http://57.129.12.119:8080/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "agile-tool",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "token3",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"updatednewworkspace\",\r\n    \"id\":302\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/application/api/v1/work-space",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"application",
+										"api",
+										"v1",
+										"work-space"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "board",
+					"item": [
+						{
+							"name": "create-board",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessTokenUrl",
+											"value": " http://57.129.12.119:8080/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "agile-tool",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "token3",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"newboardtest\",\r\n    \"workSpaceId\":\"352\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/application/api/v1/boards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"application",
+										"api",
+										"v1",
+										"boards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update-board",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessTokenUrl",
+											"value": " http://57.129.12.119:8080/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "agile-tool",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "token3",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"newtestboard\",\r\n    \"workSpaceId\":\"352\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/application/api/v1/boards/53",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"application",
+										"api",
+										"v1",
+										"boards",
+										"53"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-board",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessTokenUrl",
+											"value": " http://57.129.12.119:8080/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "agile-tool",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "token3",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/application/api/v1/boards/52",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"application",
+										"api",
+										"v1",
+										"boards",
+										"52"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-boards-of-workspace",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessTokenUrl",
+											"value": " http://57.129.12.119:8080/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "agile-tool",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "token3",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"newtestboard\",\r\n    \"workSpaceId\":\"352\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/application/api/v1/boards/get-boards-of-workspace/353",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"application",
+										"api",
+										"v1",
+										"boards",
+										"get-boards-of-workspace",
+										"353"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-board",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessTokenUrl",
+											"value": " http://57.129.12.119:8080/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "test_admin",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "agile-tool",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "token3",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"newtestboard\",\r\n    \"workSpaceId\":\"352\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/application/api/v1/boards/53",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"application",
+										"api",
+										"v1",
+										"boards",
+										"53"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
